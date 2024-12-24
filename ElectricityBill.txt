@@ -1,0 +1,6 @@
+Customer Id: 90
+Customer Name: 90
+Unit Consumed: 90
+Unit Price: 78
+Total Bill: 90
+-------------------------

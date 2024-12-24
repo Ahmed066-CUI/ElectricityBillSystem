@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -26,6 +27,7 @@ import java.io.FileWriter;
 public class MainMenu extends Application {
 
     private static final String FILENAME = "ElectricityBill.txt";
+
     public void start(Stage stage) {
         Image icon = new Image("icon.png");
         stage.getIcons().add(icon);
@@ -37,7 +39,7 @@ public class MainMenu extends Application {
 
         Label title = new Label("Electricity Bill");
 
-       // title.setStyle("-fx-font-weight: bold;-fx-font-size: 40px;-fx-text-fill: black;-fx-background-color: #36adda;-fx-background-size: 50px");
+        // title.setStyle("-fx-font-weight: bold;-fx-font-size: 40px;-fx-text-fill: black;-fx-background-color: #36adda;-fx-background-size: 50px");
         title.setStyle(
                 "-fx-font-weight: bold;" +
                         "-fx-font-size: 50px;" +
@@ -54,8 +56,8 @@ public class MainMenu extends Application {
 
         Button addBill = new Button("Add New Bill");
         Button viewBill = new Button("View All Bills");
-        Button deleteBill = new Button("Delete Bill");
-        Button searchBill = new Button("Search Bill");
+        Button deleteBill = new Button("Delete any Bill");
+        Button searchBill = new Button("Search any Bill");
         Button clearAllBill = new Button("Clear All Bills");
         Button exit = new Button("Exit");
         styleButtons(addBill);
@@ -94,15 +96,29 @@ public class MainMenu extends Application {
             searchBill1.show(stage);
         });
         viewBill.setOnAction(event -> {
-           AllBills allBills1 = new AllBills();
-           allBills1.show(stage);
+            AllBills allBills1 = new AllBills();
+            allBills1.show(stage);
         });
 
         exit.setOnAction(event -> {
             System.exit(0);
         });
         clearAllBill.setOnAction(event -> {
-            try(BufferedWriter br = new BufferedWriter(new FileWriter(FILENAME))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME))){
+                if(bufferedReader.readLine() == null){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No Bill found");
+                    alert.showAndWait();
+                    return;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(FILENAME))) {
+
                 br.write("");
                 br.flush();
                 br.close();
@@ -112,10 +128,17 @@ public class MainMenu extends Application {
                 alert.setHeaderText(null);
                 alert.setContentText("All bills cleared");
                 alert.showAndWait();
-                
-            }catch (Exception e) {
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
+        });
+        deleteBill.setOnAction(event -> {
+
+            DeleteBill deleteBill1 = new DeleteBill();
+            deleteBill1.show(stage);
         });
         Scene scene = new Scene(root, 600, 600);
         stage.setTitle("ElectricityBill");

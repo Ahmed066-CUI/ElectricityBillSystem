@@ -64,11 +64,8 @@ public class SearchBill {
         hBox2.setSpacing(50);
 
 
-        VBox vBox = new VBox(25,title ,hBox,hBox2);
+        VBox vBox = new VBox(25, title, hBox, hBox2);
         vBox.setAlignment(Pos.CENTER);
-
-
-
 
 
         searchButton.setOnAction(e -> {
@@ -85,47 +82,41 @@ public class SearchBill {
                 boolean found = false;
                 while ((line = bufferedReader.readLine()) != null) {
                     if (line.contains(customerId)) {
-
-
                         found = true;
-
-
                     }
-                    if(found){
+                    if (found) {
                         stringBuilder.append(line).append("\n");
-                        if(line.trim().equals("-------------------------"))
-                        break;
-
+                        if (line.trim().equals("-------------------------"))
+                            break;
                     }
                 }
-                    if (found) {
+                if (found) {
 
-                        Label billDetailsLabel = new Label("Bill Details:");
-                        billDetailsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: white;");
+                    Label billDetailsLabel = new Label("Bill Details:");
+                    billDetailsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: white;");
 
-                        TextArea billDetailsArea = new TextArea(stringBuilder.toString());
-                        billDetailsArea.setEditable(false);
-                        billDetailsArea.setWrapText(true);
-                        billDetailsArea.setMaxWidth(500);
-                        billDetailsArea.setMaxHeight(200);
+                    TextArea billDetailsArea = new TextArea(stringBuilder.toString());
+                    billDetailsArea.setEditable(false);
+                    billDetailsArea.setWrapText(true);
+                    billDetailsArea.setMaxWidth(500);
+                    billDetailsArea.setMaxHeight(200);
 
-                        VBox billDetailsBox = new VBox(10, billDetailsLabel, billDetailsArea);
-                        billDetailsBox.setAlignment(Pos.CENTER);
-                        billDetailsBox.setPadding(new Insets(20));
-                       // billDetailsBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-border-radius: 10px; -fx-background-radius: 10px;");
+                    VBox billDetailsBox = new VBox(10, billDetailsLabel, billDetailsArea);
+                    billDetailsBox.setAlignment(Pos.CENTER);
+                    billDetailsBox.setPadding(new Insets(20));
+                    // billDetailsBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-border-radius: 10px; -fx-background-radius: 10px;");
 
 
-                        vBox.getChildren().add(billDetailsBox);
+                    vBox.getChildren().add(billDetailsBox);
 
-                    }
-
+                }
 
 
                 if (!found) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                   // alert.setGraphic();
+                    // alert.setGraphic();
                     alert.setContentText("No bill found for the entered Customer Id.");
                     alert.showAndWait();
                 }
